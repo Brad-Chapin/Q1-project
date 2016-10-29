@@ -1,12 +1,17 @@
 html {
   font-size: 62.5%;
 }
-
-.mright {
-  margin-right: 2%;
+.dice {
+  border-style: groove;
+  border-width: 3px;
+  border-color: black;
+  background-color: #bdbdbd ;
+  height: 50px;
+  width: 50px;
 }
-.mleft {
-  margin-left: 20px;
+
+.pirate-talk {
+  font-size: 2.5rem;
 }
 
 
