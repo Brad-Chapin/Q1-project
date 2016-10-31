@@ -15,28 +15,30 @@ $(document).ready(function() {
         }
 
     });
-    var start = $("#start");
-    $("start").on("click", function() {
+    $("#start").on("click", function() {
+      console.log("test");
       //game mode validation
         if ($("test1").prop("checked") == false && $("test2").prop("checked") == false) {
             alert("Ye have t' choose a game mode, ye howlin' nutter.")
         } else if ($("test1").prop("checked")) {
-//code here for player vs computer launch
+          playerOne = prompt("Tell us yer name, so we know what t'call ye.")
         } else if ($("test2").prop("checked")) {
-//code here for player vs player launch
+          playerOne = prompt("Tell us th' first mate's name")
+          playerTwo = prompt("Tell us th' gunner's name.")
         };
     });
     $("#toss").on("click", function(){
-      console.log("test");
       var diceBoxes = ["#one", "#two", "#three", "#four", "#five"];
       for (var i = 0; i < diceBoxes.length; i++){
-        console.log(Math.floor(Math.random()*6)+1);
         $(diceBoxes[i]).text((Math.floor(Math.random()*6)+1));
       }
+
     });
 });
 var turn = "";
 var round = 1;
+var playerOne = "";
+var playerTwo = "";
 var playerOneScore = 0;
 var playerTwoScore = 0;
 
