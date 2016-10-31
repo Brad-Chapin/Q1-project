@@ -21,11 +21,26 @@ html {
   font-size: 2.5rem;
 }
 
-.input-field label.active{
+.input-field label.active {
   font-size: 2.5rem;
 }
+[type="radio"]:not(:checked)+label, [type="radio"]:checked+label {
+  font-size: 2.5rem;
+  color: black;
+}
 
-
+p {
+  font-size: 2rem;
+  color: white;
+  margin: 2rem;
+}
+h1 {
+  color: white;
+  margin: 2rem;
+}
+.inst {
+  background-color: black;
+}
 
 
 
