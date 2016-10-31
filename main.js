@@ -26,6 +26,14 @@ $(document).ready(function() {
 //code here for player vs player launch
         };
     });
+    $("#toss").on("click", function(){
+      console.log("test");
+      var diceBoxes = ["#one", "#two", "#three", "#four", "#five"];
+      for (var i = 0; i < diceBoxes.length; i++){
+        console.log(Math.floor(Math.random()*6)+1);
+        $(diceBoxes[i]).text((Math.floor(Math.random()*6)+1));
+      }
+    });
 });
 var turn = "";
 var round = 1;
