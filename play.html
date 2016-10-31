@@ -38,7 +38,7 @@
     <div class="card brown lighten-1 z-depth-5">
       <div class="card-content white-text">
         <span class="card-title">Player One</span>
-        <p>Score:</p><br><p>Wins:</p><br><p>Losses:</p>
+        <p>Score:</p><br><p>Wins: <span class="wins"></span></p><br><p>Losses: <span class="losses"></span></p>
       </div>
     </div>
   </div>
@@ -47,13 +47,13 @@
     <div class="card brown lighten-1 z-depth-5">
       <div class="card-content white-text">
         <span class="card-title">Player Two</span>
-      <p>Score:</p><br><p>Wins:</p><br><p>Losses:</p>
+      <p>Score:</p><br><p>Wins: <span class="wins"></span></p><br><p>Losses: <span class="losses"></span></p>
       </div>
     </div>
   </div>
 </div>
 <div class="row">
-  <form action="#" class="col s6 offset-s3">
+  <form action="#" id="players" class="col s6 offset-s1">
     <p>
       <input name="group1" type="radio" id="test1" class="with-gap" />
       <label for="test1" class="pirate-talk">One Pirate against th' machine.</label>
@@ -63,10 +63,11 @@
       <label for="test2" class="pirate-talk">Two pirates, head t' head.</label>
     </p>
   </form>
+  <button class="btn z-depth-5 brown lighten-1 pirate-talk waves-effect waves-light" id="start">Start th' game.</button>
 </div>
 <div class="row">
-  <h5 class="col s5 offset-s1">It be <span id="turn">(player's)</span> turn..</h5>
-  <h5 class="col s5 offset-s1">They be havin' <span id="rounds">(number)</span> throws remainin'.</h5>
+  <h5 class="col s5 offset-s1">It be <span id="turn">...</span> turn.</h5>
+  <h5 class="col s5 offset-s1">They be havin' <span id="rounds">...</span> throws remainin'.</h5>
 </div>
 <div class="row">
   <div class="col offset-s1 dice z-depth-5" id="one">One</div>
@@ -76,8 +77,8 @@
   <div class="col offset-s1 dice z-depth-5" id="five">Five</div>
 </div>
 <div class="row">
-  <button class="col s3 offset-s1 buttons z-depth-5 red">Throw th' bones!</button>
-  <button class="col s3 offset-s3 buttons z-depth-5 yellow accent-2">Collect yer booty!</button>
+  <button class=" btn col s3 offset-s1 buttons z-depth-5 brown lighten-1 waves-effect waves-light">Throw th' bones!</button>
+  <button class="btn col s3 offset-s3 buttons z-depth-5 brown lighten-1 waves-effect waves-light">Collect yer booty!</button>
 </div>
 <div class="row">
   <h3 class="center pirate-talk">Talk like a pirate!</h3>
@@ -90,7 +91,7 @@
         <label for="textarea1" class="active pirate-talk">What're ye tryin' t'say?</label>
         </div>
         <div class="row">
-          <button class="btn z-depth-5 brown lighten-1 pirate-talk" type="submit" name="action" id="trans">Translate yer gibb'rish!</button>
+          <button class="btn z-depth-5 brown lighten-1 pirate-talk waves-effect waves-light" type="submit" name="action" id="trans">Translate yer gibb'rish!</button>
       </div>
     </div>
   </form>
