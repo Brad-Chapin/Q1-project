@@ -35,6 +35,7 @@ var playerOne = "";
 var playerTwo = "";
 var playerOneScore = 0;
 var playerTwoScore = 0;
+var score = 0;
 var dice = 5;
 var round = 0;
 var storedRolls = [];
@@ -42,6 +43,12 @@ var diceBoxes = ["#one", "#two", "#three", "#four", "#five"];
 // var tempBoxes = ["#one", "#two", "#three", "#four", "#five"];
 
 function turn (){
+  if (round == 3 && storedRolls.length == 3){
+    score += (parseInt(diceBoxes[0].val())+(diceBoxes[1].val()));
+    console.log(score);
+  } else if (round == 3 && storedRolls.length < 3){
+    alert("Bah, landlubber, ye didn't score a blighted thing!")
+  }
   round++;
   var rolls = [];
     for (var d = 0; d < diceBoxes.length; d++){
