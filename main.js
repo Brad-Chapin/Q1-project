@@ -79,6 +79,7 @@ function reset (){
   //resets the values for the next turn
   dice = 5;
   round = 0;
+  var diceBoxes = ["#one", "#two", "#three", "#four", "#five"];
 }
 
 
