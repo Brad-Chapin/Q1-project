@@ -30,35 +30,46 @@ $(document).ready(function() {
   });
 
 //variables
-var turn = "";
+// var turn = "";
 var playerOne = "";
 var playerTwo = "";
 var playerOneScore = 0;
 var playerTwoScore = 0;
 var dice = 5;
 var round = 0;
+var storedRolls = [];
+var diceBoxes = ["#one", "#two", "#three", "#four", "#five"];
+// var tempBoxes = ["#one", "#two", "#three", "#four", "#five"];
 
 function turn (){
   round++;
-  storedRolls = round ([]);
-};
-
-function round (storedRolls){
   var rolls = [];
-    var diceBoxes = ["#one", "#two", "#three", "#four", "#five"];
-    for (var d = 0; d < dice; d++){
+    for (var d = 0; d < diceBoxes.length; d++){
+      if (storedRolls.indexOf(diceBoxes[d]) == -1){
       rolls.push((Math.floor(Math.random()*6)+1));
       $(diceBoxes[d]).text(rolls[d]);
     }
+  }
+    console.log(rolls);
     for (var s = 0; s < dice; s++){
       if (rolls.indexOf(6) !== -1 && storedRolls.length == 0){
-        storedRolls.push(diceBoxes[rolls.indexOf(6)]);
+        var six = rolls.indexOf(6);
+        storedRolls.push(diceBoxes[six]);
+        console.log(diceBoxes[six]);
+        diceBoxes.splice(six, 1)
+        console.log(diceBoxes);
         dice--;
       } else if (rolls.indexOf(5) !== -1 && storedRolls.length == 1){
-        storedRolls.push(diceBoxes[rolls.indexOf(5)]);
+        var five = rolls.indexOf(5);
+        storedRolls.push(diceBoxes[five]);
+        diceBoxes.splice(five, 1)
+        console.log(diceBoxes);
         dice--;
       } else if (rolls.indexOf(4) !== -1 && storedRolls.length == 2){
-        storedRolls.push(diceBoxes[rolls.indexOf(4)]);
+        var four = rolls.indexOf(4);
+        storedRolls.push(diceBoxes[four]);
+        diceBoxes.splice(four, 1)
+        console.log(diceBoxes);
         dice--;
       }
     }
