@@ -38,7 +38,7 @@
     <div class="card brown lighten-1 z-depth-5">
       <div class="card-content white-text">
         <span class="card-title" id="player_one">Player One</span>
-        <p>Score:</p><br><p>Wins: <span class="wins"></span></p><br><p>Losses: <span class="losses"></span></p>
+        <p>Score: <span id="p1_score">0</span></p><br><p>Wins: <span id="p1_wins">0</span></p><br><p>Losses: <span id="p1_losses">0</span></p>
       </div>
     </div>
   </div>
@@ -47,7 +47,7 @@
     <div class="card brown lighten-1 z-depth-5">
       <div class="card-content white-text">
         <span class="card-title" id="player_two">Player Two</span>
-      <p>Score:</p><br><p>Wins: <span class="wins"></span></p><br><p>Losses: <span class="losses"></span></p>
+      <p>Score: <span class="p2_score">0</span></p><br><p>Wins: <span id="p2_wins">0</span></p><br><p>Losses: <span id="p2_losses">0</span></p>
       </div>
     </div>
   </div>
@@ -66,8 +66,9 @@
   <button class="btn z-depth-5 brown lighten-1 pirate-talk" id="start">Start th' game.</button>
 </div>
 <div class="row">
-  <h5 class="col s5 offset-s1">It be <span id="turn">...</span> turn.</h5>
-  <h5 class="col s5 offset-s1">They be havin' <span id="rounds">...</span> throws remainin'.</h5>
+  <h5 class="col s3 offset-s1"><span id="which_player">No one</span> be at th' helm.</h5>
+  <h5 class="col s3 offset-s1">It be turn<span id="what_turn">1</span>.</h5>
+  <h5 class="col s3 offset-s1">They be havin' <span id="what_round">3</span> throws remainin'.</h5>
 </div>
 <div class="row">
   <div class="col offset-s1 dice z-depth-5">

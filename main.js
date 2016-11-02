@@ -21,26 +21,39 @@ $(document).ready(function() {
             alert("Ye have t' choose a game mode, ye howlin' nutter.")
         } else if ($("#test1").prop("checked")) {
           playerOne = prompt("Tell us yer name, so we know what t'call ye.")
+          playerTwo = "Computer";
           $("#player_one").text(playerOne);
           $("#player_two").text("Computer");
+          $("#which_player").text(playerOne);
+          turnWho = playerOne;
         } else if ($("#test2").prop("checked")) {
           playerOne = prompt("Tell us th' first mate's name")
           playerTwo = prompt("Tell us th' gunner's name.")
           $("#player_one").text(playerOne);
           $("#player_two").text(playerTwo);
+          $("#which_player").text(playerOne);
+          turnWho = playerOne;
         };
     });
         $("#toss").on("click", turn);
-        $("#collect").on("click", function(){});
+        $("#collect").on("click", getPoints);
   });
 
 //variables
+//player one score, wins, losses
+var p1s = $("#p1_score").text();
+var p1w = $("#p1_wins").text();
+var p1s = $("#p1_losses").text();
+
+var p2s = $("#p2_score").text();
+var p2s = $("#p2_wins").text();
+var p2s = $("#p2_losses").text();
+
+
 var turnNumber = 1;
 var turnWho = "";
 var playerOne = "";
 var playerTwo = "";
-var playerOneScore = 0;
-var playerTwoScore = 0;
 var score = 0;
 var dice = 5;
 var round = 0;
@@ -49,19 +62,14 @@ var diceBoxes = ["#one", "#two", "#three", "#four", "#five"];
 // var tempBoxes = ["#one", "#two", "#three", "#four", "#five"];
 
 function turn (){
-  var dieOne = diceBoxes[0];
-  var dieTwo = diceBoxes [1];
-  if (round == 3 && storedRolls.length == 3){
-    score += (parseInt($(dieOne).text())) + parseInt($(dieTwo).text());
-
-  } else if (round == 3 && storedRolls.length < 3){
-    alert("Bah, landlubber, ye didn't score a blighted thing!")
-  }
   round++;
+  $("#what_round").text(3 - round);
   var rolls = [];
     for (var d = 0; d < diceBoxes.length; d++){
       rolls.push((Math.floor(Math.random()*6)+1));
+      if (storedRolls.indexOf($(diceBoxes[d])) == -1){
       $(diceBoxes[d]).text(rolls[d]);
+    }
   }
     for (var s = 0; s < dice; s++){
       if (rolls.indexOf(6) !== -1 && storedRolls.length == 0){
@@ -81,6 +89,25 @@ function turn (){
         dice--;
       }
     }
+    console.log("unstored id's",diceBoxes);
+    console.log("randoms ",rolls);
+    console.log("stored id's ",storedRolls);
+    if (round == 3 && storedRolls.length == 3){
+      getPoints();
+    } else if (round == 3 && storedRolls.length < 3){
+      alert("Bah, landlubber, ye didn't score a blighted thing!")
+      if (turnWho == playerOne){
+        turnWho = playerTwo;
+        $("#which_player").text(playerTwo);
+        reset();
+        computerTurn();
+      } else {
+        turnWho = playerOne;
+        $("#what_player").text(playerOne);
+        turnNumber++;
+        reset();
+      }
+    }
 };
 
 function reset (){
@@ -91,17 +118,40 @@ function reset (){
 }
 
 function getPoints (){
+  console.log(turnWho);
   var dieOne = diceBoxes[0];
   var dieTwo = diceBoxes [1];
-  score += (parseInt($(dieOne).text())) + parseInt($(dieTwo).text());
+  score = (parseInt($(dieOne).text())) + parseInt($(dieTwo).text());
+  console.log(($(dieOne).text()), ($(dieTwo).text()));
+  console.log("score is ",score);
   if (turnWho == playerOne){
-    playerOneScore += score;
-  } else {
-    playerTwoScore += score;
+      if (playerTwo == "Computer"){
+        console.log(p1s);
+        p1s = (parseInt(p1s) + parseInt(score));
+        console.log(p1s);
+        turnWho = playerTwo;
+        $("#which_player").text(playerTwo)
+        reset();
+        computerTurn();
+      } else {
+        p1s = (parseInt(p1s) + parseInt(score));
+        turnWho = playerTwo;
+        $("#which_player").text(playerTwo);
+        reset();
+  }
+}
+  else {
+    p2s = (parseInt(p2s) + parseInt(score));
+    turnWho = playerOne;
+    $("#which_player").text(playerOne);
+    turnNumber++;
+    reset();
   }
 }
 
 function computerTurn (){
+  turn();
+  console.log("the computer should be rolling");
   if (storedRolls.length == 3){
     var dieOne = diceBoxes[0];
     var dieTwo = diceBoxes [1];
@@ -113,10 +163,10 @@ function computerTurn (){
       case score > 8:
       getPoints();
       break;
-      case playerOneScore >= playerTwoScore:
+      case p1s >= p2s:
       turn();
       break;
-      case playerTwoScore > playerOneScore:
+      case p2s > p1s:
       getPoints();
       break;
       default:
