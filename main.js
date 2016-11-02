@@ -43,11 +43,11 @@ $(document).ready(function() {
 //player one score, wins, losses
 var p1s = $("#p1_score").text();
 var p1w = $("#p1_wins").text();
-var p1s = $("#p1_losses").text();
+var p1l = $("#p1_losses").text();
 
 var p2s = $("#p2_score").text();
-var p2s = $("#p2_wins").text();
-var p2s = $("#p2_losses").text();
+var p2w = $("#p2_wins").text();
+var p2l = $("#p2_losses").text();
 
 
 var turnNumber = 1;
@@ -65,34 +65,30 @@ function turn (){
   round++;
   $("#what_round").text(3 - round);
   var rolls = [];
-    for (var d = 0; d < diceBoxes.length; d++){
+    for (var d = 0; d < dice.length; d++){
       rolls.push((Math.floor(Math.random()*6)+1));
-      if (storedRolls.indexOf($(diceBoxes[d])) == -1){
-      $(diceBoxes[d]).text(rolls[d]);
+      for (var x = 0; x < diceBoxes.length, x++) {
+        if (storedRolls.indexOf($(diceBoxes[d])) == -1){
+          $(diceBoxes[d]).text(rolls[d]);
+          break;
     }
+   }
   }
     for (var s = 0; s < dice; s++){
-      if (rolls.indexOf(6) !== -1 && storedRolls.length == 0){
-        var six = rolls.indexOf(6);
-        storedRolls.push(diceBoxes[six]);
-        diceBoxes.splice(six, 1)
-        dice--;
-      } else if (rolls.indexOf(5) !== -1 && storedRolls.length == 1){
-        var five = rolls.indexOf(5);
-        storedRolls.push(diceBoxes[five]);
-        diceBoxes.splice(five, 1)
-        dice--;
-      } else if (rolls.indexOf(4) !== -1 && storedRolls.length == 2){
-        var four = rolls.indexOf(4);
-        storedRolls.push(diceBoxes[four]);
-        diceBoxes.splice(four, 1)
-        dice--;
+      if (rolledSix(rolls) && !hasSix()){
+        storeDie(diceBoxes[rolls.indexOf(6)])
+      } else if (rolledFive(rolls) && !hasFive() && hasSix()){
+        storeDie(diceBoxes[rolls.indexOf(5)])
+      } else if (rolledFour(rolls) && !hasFour() && hasFive()){
+        storeDie(diceBoxes[rolls.indexOf(4)])
       }
     }
+
     console.log("unstored id's",diceBoxes);
     console.log("randoms ",rolls);
     console.log("stored id's ",storedRolls);
     if (round == 3 && storedRolls.length == 3){
+      console.log("player should get points here");
       getPoints();
     } else if (round == 3 && storedRolls.length < 3){
       alert("Bah, landlubber, ye didn't score a blighted thing!")
@@ -117,22 +113,47 @@ function reset (){
   var diceBoxes = ["#one", "#two", "#three", "#four", "#five"];
 }
 
+//functions for 654 testing
+function rolledSix (rolls) {
+  return rolls.indexOf(6) !== -1;
+}
+function hasSix () {
+  return storedRolls.length > 0;
+}
+function rolledFive (rolls) {
+  return rolls.indexOf(5) !== -1;
+}
+function hasFive () {
+  return storedRolls.length > 1;
+}
+function rolledFour (rolls) {
+  return rolls.indexOf(4) !== -1;
+}
+function hasFour () {
+  return storedRolls.length > 2;
+}
+ function storeDie (newId) {
+   storedRolls.push(newId);
+   dice--;
+ }
+
 function getPoints (){
-  console.log(turnWho);
+  console.log("player should be getting points here");
   var dieOne = diceBoxes[0];
   var dieTwo = diceBoxes [1];
   score = (parseInt($(dieOne).text())) + parseInt($(dieTwo).text());
-  console.log(($(dieOne).text()), ($(dieTwo).text()));
-  console.log("score is ",score);
+  console.log("players should get these points: ",score);
   if (turnWho == playerOne){
       if (playerTwo == "Computer"){
         console.log(p1s);
         p1s = (parseInt(p1s) + parseInt(score));
         console.log(p1s);
+        $(p1s).text(p1s);
         turnWho = playerTwo;
+        console.log(turnWho);
         $("#which_player").text(playerTwo)
         reset();
-        computerTurn();
+        // computerTurn();
       } else {
         p1s = (parseInt(p1s) + parseInt(score));
         turnWho = playerTwo;
