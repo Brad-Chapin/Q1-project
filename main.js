@@ -59,20 +59,14 @@ var dice = 5;
 var round = 0;
 var storedRolls = [];
 var diceBoxes = ["#one", "#two", "#three", "#four", "#five"];
-// var tempBoxes = ["#one", "#two", "#three", "#four", "#five"];
 
 function turn (){
   round++;
   $("#what_round").text(3 - round);
   var rolls = [];
-    for (var d = 0; d < dice.length; d++){
+    for (var d = 0; d < dice; d++){
       rolls.push((Math.floor(Math.random()*6)+1));
-      for (var x = 0; x < diceBoxes.length, x++) {
-        if (storedRolls.indexOf($(diceBoxes[d])) == -1){
-          $(diceBoxes[d]).text(rolls[d]);
-          break;
-    }
-   }
+      $(diceBoxes[d]).text(rolls[d]);
   }
     for (var s = 0; s < dice; s++){
       if (rolledSix(rolls) && !hasSix()){
@@ -83,9 +77,13 @@ function turn (){
         storeDie(diceBoxes[rolls.indexOf(4)])
       }
     }
+    diceBoxes = diceBoxes.filter(function(element){
+      return storedRolls.indexOf(element) == -1;
+    });
 
     console.log("unstored id's",diceBoxes);
     console.log("randoms ",rolls);
+    console.log("dice ",dice);
     console.log("stored id's ",storedRolls);
     if (round == 3 && storedRolls.length == 3){
       console.log("player should get points here");
