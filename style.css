@@ -64,7 +64,22 @@ background-color: #8d6e63;
   font-size: 2rem;
   color: black;
 }
-
+#bobble {
+  animation: bobble 2s infinite;
+}
+@keyframes bobble {
+    0% {
+        transform: translate3d(10px, 5px, 0px);
+        animation-timing-function: ease-in;
+    }
+    50% {
+        transform: translate3d(10px, 10px, 0px);
+        animation-timing-function: ease-out;
+    }
+    100% {
+        transform: translate3d(10px, 5px, 0px);
+    }
+}
 
 /*translate3d(x, y, z)
 x = horizontal movement
