@@ -63,58 +63,46 @@ var diceBoxes = ["#one", "#two", "#three", "#four", "#five"];
 function turn (){
   round++;
   $("#what_round").text(3 - round);
-  console.log("round change");
   var rolls = [];
     for (var d = 0; d < dice; d++){
       rolls.push((Math.floor(Math.random()*6)+1));
       $(diceBoxes[d]).text(rolls[d]);
-      console.log("dice rolled");
   }
     for (var s = 0; s < dice; s++){
       if (rolledSix(rolls) && !hasSix()){
         storeDie(diceBoxes[rolls.indexOf(6)])
-        console.log("six check");
       } else if (rolledFive(rolls) && !hasFive() && hasSix()){
         storeDie(diceBoxes[rolls.indexOf(5)])
-        console.log("five check");
       } else if (rolledFour(rolls) && !hasFour() && hasFive()){
         storeDie(diceBoxes[rolls.indexOf(4)])
-        console.log("four check");
       }
     }
     diceBoxes = diceBoxes.filter(function(element){
       return storedRolls.indexOf(element) == -1;
-      console.log("stored rolls filtered");
     });
       if (round == 3 && storedRolls.length == 3){
-        console.log("check for 3rd round and 654");
         getPoints();
     } else if (round == 3 && storedRolls.length < 3){
-      alert("Bah, landlubber, ye didn't score a blighted thing!")
+      alert("Bah, landlubber, ye didn't score a blighted thing!");
       if (turnWho == playerOne){
-        console.log("check for computer player");
           if (playerTwo == "Machine"){
-            console.log("machine turn validated");
             turnWho = playerTwo;
             $("#which_player").text(playerTwo);
             reset();
             machineTurn();
           } else {
-            console.log("determing p2 not computer");
             turnWho = playerTwo;
             $("#which_player").text(playerTwo);
             reset();
           }
       } else {
-        console.log("passing play from p2 to p1");
         turnWho = playerOne;
         $("#which_player").text(playerOne);
         turnNumber++;
         $("#what_turn").text(turnNumber);
         reset();
       }
-    } else if (round < 3 && storedRolls.length < 3 && turnWho == playerTwo && playerTwo == "Machine"){
-      console.log("machine turn validated II");
+    } else if (round < 3 && turnWho == playerTwo && playerTwo == "Machine"){
       machineTurn();
     }
     if (turnNumber > 5){
@@ -124,7 +112,6 @@ function turn (){
 
 function reset (){
   //resets the values for the next turn
-  console.log("resetting play values");
   score = 0;
   $("#what_round").text(3);
   dice = 5;
@@ -133,7 +120,6 @@ function reset (){
   diceBoxes = ["#one", "#two", "#three", "#four", "#five"];
 }
 function gameReset () {
-console.log("resetting game values");
   //resets values for next game
   reset();
   turnNumber = 1;
@@ -171,7 +157,6 @@ function getPoints (){
   var dieTwo = diceBoxes [1];
   score = (parseInt($(dieOne).text())) + parseInt($(dieTwo).text());
   if (turnWho == playerOne){
-    console.log("check for computer player 2 II");
       if (playerTwo == "Machine"){
         playerOneScore += score;
         $("#p1_score").text(playerOneScore);
@@ -181,7 +166,6 @@ function getPoints (){
         reset();
         machineTurn();
       } else {
-        console.log("determing p2 not computer II");
         playerOneScore += score;
         $("#p1_score").text(playerOneScore);
         alert(playerOne + " scored " + score + " points. " + playerTwo + " be at th' helm now.");
@@ -191,7 +175,6 @@ function getPoints (){
   }
 }
   else {
-    console.log("passing play from p2 to p1 II");
     playerTwoScore += score;
     $("#p2_score").text(playerTwoScore);
     alert(playerTwo + " scored " + score + " points. " + playerOne + " be at th' helm now.");
@@ -207,13 +190,11 @@ function getPoints (){
   }
 }
 function machineTurn (){
-  console.log("start machine turn");
   if (storedRolls.length == 3 && round < 3){
     var dieOne = diceBoxes[0];
     var dieTwo = diceBoxes [1];
     score = (parseInt($(dieOne).text())) + parseInt($(dieTwo).text());
-    console.log("the machine should be rolling");
-    switch (score) {
+    switch (true) {
       case score < 6:
       turn();
       break;
@@ -231,13 +212,14 @@ function machineTurn (){
 
     }
   } else  {
-      console.log("654 check fails");
       turn();
     }
 }
 
 function gameEnd () {
     if (playerOneScore > playerTwoScore){
+      console.log("p1 ", playerOneScore);
+      console.log("p2 ", playerTwoScore);
       alert(playerOne + " be th' winner!");
       playerOneWins++;
       $("#p1_wins").text(playerOneWins);
@@ -245,6 +227,8 @@ function gameEnd () {
       $("#p2_losses").text(playerTwoLosses);
       gameReset();
     } else if (playerOneScore < playerTwoScore){
+      console.log("p1 ", playerOneScore);
+      console.log("p2 ", playerTwoScore);
       alert (playerTwo + " be th' winner!");
       playerTwoWins++;
       $("#p2_wins").text(playerTwoWins);
@@ -252,6 +236,8 @@ function gameEnd () {
       $("#p1_losses").text(playerOneLosses);
       gameReset();
     } else {
+      console.log("p1 ", playerOneScore);
+      console.log("p2 ", playerTwoScore);
       alert("An epic battle! It be a draw!");
       gameReset();
     }
