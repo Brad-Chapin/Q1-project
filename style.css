@@ -1,5 +1,6 @@
 html {
   font-size: 62.5%;
+  font-family: 'Rye', cursive;
 }
 .card-content {
   font-size: 1.5rem;
@@ -18,7 +19,7 @@ html {
   border-color: #757575;
   background-color: #bdbdbd ;
   height: 50px;
-  font-size: 1.75rem;
+  font-size: 1.25rem;
   color: black;
 }
 
@@ -46,6 +47,9 @@ html {
   width:838px;
   height: 593px;;
   background-size: cover;
+}
+.pirate-font {
+  font-family: 'Rye', cursive;
 }
 [type="radio"].with-gap:checked + label:before {
 border-radius: 50%;
