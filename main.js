@@ -8,8 +8,6 @@ $(document).ready(function() {
             talk.text("Kwitcher mumblin' and say somethin'!");
         } else {
             $xhr.done(function(data) {
-                console.log(data);
-                console.log(data.translation.pirate);
                 talk.text(data.translation.pirate);
             });
         }
@@ -39,16 +37,13 @@ $(document).ready(function() {
         $("#collect").on("click", getPoints);
   });
 
-//variables
-//player one score, wins, losses
-var p1s = $("#p1_score").text();
-var p1w = $("#p1_wins").text();
-var p1l = $("#p1_losses").text();
-
-var p2s = $("#p2_score").text();
-var p2w = $("#p2_wins").text();
-var p2l = $("#p2_losses").text();
-
+//player stats
+var playerOneWins = 0;
+var playerOneLosses = 0;
+var playerTwoWins = 0;
+var playerTwoLosses = 0;
+var playerOneScore = 0;
+var playerTwoScore = 0;
 
 var turnNumber = 1;
 var turnWho = "";
@@ -61,6 +56,26 @@ var storedRolls = [];
 var diceBoxes = ["#one", "#two", "#three", "#four", "#five"];
 
 function turn (){
+  if (turnNumber > 5){
+    if (playerOneScore > playerTwoScore){
+      alert(playerOne + " be th' winner!");
+      playerOneWins++;
+      $("#p1_wins").text(playerOneWins);
+      playerTwoLosses++;
+      $("#p2_losses").text(playerTwoLosses);
+      gameReset();
+    } else if (playerOneScore < playerTwoScore){
+      alert (playerTwo + " be th' winner!");
+      playerTwoWins++;
+      $("#p2_wins").text(playerTwoWins);
+      playerOneLosses++;
+      $("#p1_losses").text(playerOneLosses);
+      gameReset();
+    } else {
+      alert("An epic battle! It be a draw!");
+      gameReset;
+    }
+  }
   round++;
   $("#what_round").text(3 - round);
   var rolls = [];
@@ -80,13 +95,7 @@ function turn (){
     diceBoxes = diceBoxes.filter(function(element){
       return storedRolls.indexOf(element) == -1;
     });
-
-    console.log("unstored id's",diceBoxes);
-    console.log("randoms ",rolls);
-    console.log("dice ",dice);
-    console.log("stored id's ",storedRolls);
-    if (round == 3 && storedRolls.length == 3){
-      console.log("player should get points here");
+      if (round == 3 && storedRolls.length == 3){
       getPoints();
     } else if (round == 3 && storedRolls.length < 3){
       alert("Bah, landlubber, ye didn't score a blighted thing!")
@@ -109,6 +118,14 @@ function reset (){
   dice = 5;
   round = 0;
   var diceBoxes = ["#one", "#two", "#three", "#four", "#five"];
+}
+function gameReset () {
+  //resets values for next game
+  dice = 5;
+  round = 0;
+  turnNumber = 1;
+  playerOneScore = 0;
+  playerTwoScore = 0;
 }
 
 //functions for 654 testing
@@ -136,34 +153,32 @@ function hasFour () {
  }
 
 function getPoints (){
-  console.log("player should be getting points here");
   var dieOne = diceBoxes[0];
   var dieTwo = diceBoxes [1];
   score = (parseInt($(dieOne).text())) + parseInt($(dieTwo).text());
-  console.log("players should get these points: ",score);
   if (turnWho == playerOne){
       if (playerTwo == "Computer"){
-        console.log(p1s);
-        p1s = (parseInt(p1s) + parseInt(score));
-        console.log(p1s);
-        $(p1s).text(p1s);
+        playerOneScore += score;
+        $("#p1_score").text(playerOneScore);
         turnWho = playerTwo;
-        console.log(turnWho);
         $("#which_player").text(playerTwo)
         reset();
-        // computerTurn();
+        computerTurn();
       } else {
-        p1s = (parseInt(p1s) + parseInt(score));
+        playerOneScore += score;
+        $("#p1_score").text(playerOneScore);
         turnWho = playerTwo;
         $("#which_player").text(playerTwo);
         reset();
   }
 }
   else {
-    p2s = (parseInt(p2s) + parseInt(score));
+    playerTwoScore += score;
+    $("#p2_score").text(playerTwoScore);
     turnWho = playerOne;
     $("#which_player").text(playerOne);
     turnNumber++;
+    $("#what_turn").text(turnNumber);
     reset();
   }
 }
@@ -174,7 +189,7 @@ function computerTurn (){
   if (storedRolls.length == 3){
     var dieOne = diceBoxes[0];
     var dieTwo = diceBoxes [1];
-    score += (parseInt($(dieOne).text())) + parseInt($(dieTwo).text());
+    score = (parseInt($(dieOne).text())) + parseInt($(dieTwo).text());
     switch (true) {
       case score < 6:
       turn();
@@ -182,10 +197,10 @@ function computerTurn (){
       case score > 8:
       getPoints();
       break;
-      case p1s >= p2s:
+      case playerOneScore >= playerTwoScore:
       turn();
       break;
-      case p2s > p1s:
+      case playerTwoScore > playerOneScore:
       getPoints();
       break;
       default:
