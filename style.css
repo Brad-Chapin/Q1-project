@@ -1,6 +1,9 @@
 html {
   font-size: 62.5%;
 }
+.card-content {
+  font-size: 1.5rem;
+}
 .dice {
   border-style: groove;
   border-width: 8px;
@@ -37,6 +40,9 @@ html {
 }
 .inst {
   background-color: black;
+}
+#pirate-splash {
+  background-image: url(image/images/SCC-dark-alt.JPG);
 }
 [type="radio"].with-gap:checked + label:before {
 border-radius: 50%;

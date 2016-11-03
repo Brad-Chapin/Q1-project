@@ -19,9 +19,9 @@ $(document).ready(function() {
             alert("Ye have t' choose a game mode, ye howlin' nutter.")
         } else if ($("#test1").prop("checked")) {
           playerOne = prompt("Tell us yer name, so we know what t'call ye.")
-          playerTwo = "Computer";
+          playerTwo = "Machine";
           $("#player_one").text(playerOne);
-          $("#player_two").text("Computer");
+          $("#player_two").text("Machine");
           $("#which_player").text(playerOne);
           turnWho = playerOne;
         } else if ($("#test2").prop("checked")) {
@@ -56,26 +56,6 @@ var storedRolls = [];
 var diceBoxes = ["#one", "#two", "#three", "#four", "#five"];
 
 function turn (){
-  if (turnNumber > 5){
-    if (playerOneScore > playerTwoScore){
-      alert(playerOne + " be th' winner!");
-      playerOneWins++;
-      $("#p1_wins").text(playerOneWins);
-      playerTwoLosses++;
-      $("#p2_losses").text(playerTwoLosses);
-      gameReset();
-    } else if (playerOneScore < playerTwoScore){
-      alert (playerTwo + " be th' winner!");
-      playerTwoWins++;
-      $("#p2_wins").text(playerTwoWins);
-      playerOneLosses++;
-      $("#p1_losses").text(playerOneLosses);
-      gameReset();
-    } else {
-      alert("An epic battle! It be a draw!");
-      gameReset;
-    }
-  }
   round++;
   $("#what_round").text(3 - round);
   var rolls = [];
@@ -96,34 +76,70 @@ function turn (){
       return storedRolls.indexOf(element) == -1;
     });
       if (round == 3 && storedRolls.length == 3){
+        console.log("check for 3rd round and 654");
       getPoints();
     } else if (round == 3 && storedRolls.length < 3){
       alert("Bah, landlubber, ye didn't score a blighted thing!")
       if (turnWho == playerOne){
-        turnWho = playerTwo;
-        $("#which_player").text(playerTwo);
-        reset();
-        computerTurn();
+        console.log("check for computer player");
+          if (playerTwo == "Machine"){
+            turnWho = playerTwo;
+            $("#which_player").text(playerTwo);
+            reset();
+            machineTurn();
+          } else {
+            console.log("determing p2 not computer");
+            turnWho = playerTwo;
+            $("#which_player").text(playerTwo);
+            reset();
+          }
       } else {
+        console.log("passing play from p2 to p1");
         turnWho = playerOne;
-        $("#what_player").text(playerOne);
+        $("#which_player").text(playerOne);
         turnNumber++;
+        $("#what_turn").text(turnNumber);
         reset();
+      }
+    }
+    if (turnNumber > 5){
+      if (playerOneScore > playerTwoScore){
+        alert(playerOne + " be th' winner!");
+        playerOneWins++;
+        $("#p1_wins").text(playerOneWins);
+        playerTwoLosses++;
+        $("#p2_losses").text(playerTwoLosses);
+        gameReset();
+      } else if (playerOneScore < playerTwoScore){
+        alert (playerTwo + " be th' winner!");
+        playerTwoWins++;
+        $("#p2_wins").text(playerTwoWins);
+        playerOneLosses++;
+        $("#p1_losses").text(playerOneLosses);
+        gameReset();
+      } else {
+        alert("An epic battle! It be a draw!");
+        gameReset;
       }
     }
 };
 
 function reset (){
   //resets the values for the next turn
+  console.log("resetting play values");
+  score = 0;
+  $("#what_round").text(3);
   dice = 5;
   round = 0;
-  var diceBoxes = ["#one", "#two", "#three", "#four", "#five"];
+  storedRolls = [];
+  diceBoxes = ["#one", "#two", "#three", "#four", "#five"];
 }
 function gameReset () {
+console.log("resetting game values");
   //resets values for next game
-  dice = 5;
-  round = 0;
+  reset();
   turnNumber = 1;
+  $("#what_turn").text(turnNumber);
   playerOneScore = 0;
   playerTwoScore = 0;
 }
@@ -157,14 +173,16 @@ function getPoints (){
   var dieTwo = diceBoxes [1];
   score = (parseInt($(dieOne).text())) + parseInt($(dieTwo).text());
   if (turnWho == playerOne){
-      if (playerTwo == "Computer"){
+    console.log("check for computer player 2 II");
+      if (playerTwo == "Machine"){
         playerOneScore += score;
         $("#p1_score").text(playerOneScore);
         turnWho = playerTwo;
         $("#which_player").text(playerTwo)
         reset();
-        computerTurn();
+        machineTurn();
       } else {
+        console.log("determing p2 not computer II");
         playerOneScore += score;
         $("#p1_score").text(playerOneScore);
         turnWho = playerTwo;
@@ -173,19 +191,22 @@ function getPoints (){
   }
 }
   else {
+    console.log("passing play from p2 to p1 II");
     playerTwoScore += score;
     $("#p2_score").text(playerTwoScore);
     turnWho = playerOne;
     $("#which_player").text(playerOne);
     turnNumber++;
-    $("#what_turn").text(turnNumber);
-    reset();
+    if (turnNumber > 5){
+      gameEnd();
+    } else {
+      $("#what_turn").text(turnNumber);
+    }
   }
 }
-
-function computerTurn (){
+function machineTurn (){
   turn();
-  console.log("the computer should be rolling");
+  console.log("the machine should be rolling");
   if (storedRolls.length == 3){
     var dieOne = diceBoxes[0];
     var dieTwo = diceBoxes [1];
@@ -208,6 +229,27 @@ function computerTurn (){
 
     }
   }
+}
+
+function gameEnd () {
+    if (playerOneScore > playerTwoScore){
+      alert(playerOne + " be th' winner!");
+      playerOneWins++;
+      $("#p1_wins").text(playerOneWins);
+      playerTwoLosses++;
+      $("#p2_losses").text(playerTwoLosses);
+      gameReset();
+    } else if (playerOneScore < playerTwoScore){
+      alert (playerTwo + " be th' winner!");
+      playerTwoWins++;
+      $("#p2_wins").text(playerTwoWins);
+      playerOneLosses++;
+      $("#p1_losses").text(playerOneLosses);
+      gameReset();
+    } else {
+      alert("An epic battle! It be a draw!");
+      gameReset();
+    }
 }
 
 //"https://g-hackday.herokuapp.com/arrpi.php?text=" + userText + "&format=json"
