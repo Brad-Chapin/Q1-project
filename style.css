@@ -69,15 +69,15 @@ background-color: #8d6e63;
 }
 @keyframes bobble {
     0% {
-        transform: translate3d(10px, 5px, 0px);
+        transform: translate3d(20px, 10px, 0px);
         animation-timing-function: ease-in;
     }
     50% {
-        transform: translate3d(10px, 10px, 0px);
+        transform: translate3d(25px, 25px, 0px);
         animation-timing-function: ease-out;
     }
     100% {
-        transform: translate3d(10px, 5px, 0px);
+        transform: translate3d(20px, 10px, 0px);
     }
 }
 
