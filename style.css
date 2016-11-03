@@ -51,6 +51,9 @@ html {
 .pirate-font {
   font-family: 'Rye', cursive;
 }
+.splash {
+  font-size: 1.25rem;
+}
 [type="radio"].with-gap:checked + label:before {
 border-radius: 50%;
 border: 2px solid #8d6e63; }

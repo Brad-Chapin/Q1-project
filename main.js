@@ -13,6 +13,11 @@ $(document).ready(function() {
         }
 
     });
+    $("textarea").on("click", function(){
+      event.preventDefault();
+      talk.text("");
+    });
+
     $("#start").on("click", function() {
       //game mode validation
         if ($("#test1").prop("checked") == false && $("#test2").prop("checked") == false) {
@@ -58,31 +63,38 @@ var diceBoxes = ["#one", "#two", "#three", "#four", "#five"];
 function turn (){
   round++;
   $("#what_round").text(3 - round);
+  console.log("round change");
   var rolls = [];
     for (var d = 0; d < dice; d++){
       rolls.push((Math.floor(Math.random()*6)+1));
       $(diceBoxes[d]).text(rolls[d]);
+      console.log("dice rolled");
   }
     for (var s = 0; s < dice; s++){
       if (rolledSix(rolls) && !hasSix()){
         storeDie(diceBoxes[rolls.indexOf(6)])
+        console.log("six check");
       } else if (rolledFive(rolls) && !hasFive() && hasSix()){
         storeDie(diceBoxes[rolls.indexOf(5)])
+        console.log("five check");
       } else if (rolledFour(rolls) && !hasFour() && hasFive()){
         storeDie(diceBoxes[rolls.indexOf(4)])
+        console.log("four check");
       }
     }
     diceBoxes = diceBoxes.filter(function(element){
       return storedRolls.indexOf(element) == -1;
+      console.log("stored rolls filtered");
     });
       if (round == 3 && storedRolls.length == 3){
         console.log("check for 3rd round and 654");
-      getPoints();
+        getPoints();
     } else if (round == 3 && storedRolls.length < 3){
       alert("Bah, landlubber, ye didn't score a blighted thing!")
       if (turnWho == playerOne){
         console.log("check for computer player");
           if (playerTwo == "Machine"){
+            console.log("machine turn validated");
             turnWho = playerTwo;
             $("#which_player").text(playerTwo);
             reset();
@@ -102,6 +114,7 @@ function turn (){
         reset();
       }
     } else if (round < 3 && storedRolls.length < 3 && turnWho == playerTwo && playerTwo == "Machine"){
+      console.log("machine turn validated II");
       machineTurn();
     }
     if (turnNumber > 5){
@@ -194,11 +207,12 @@ function getPoints (){
   }
 }
 function machineTurn (){
-  console.log("the machine should be rolling");
+  console.log("start machine turn");
   if (storedRolls.length == 3 && round < 3){
     var dieOne = diceBoxes[0];
     var dieTwo = diceBoxes [1];
     score = (parseInt($(dieOne).text())) + parseInt($(dieTwo).text());
+    console.log("the machine should be rolling");
     switch (score) {
       case score < 6:
       turn();
@@ -217,6 +231,7 @@ function machineTurn (){
 
     }
   } else  {
+      console.log("654 check fails");
       turn();
     }
 }
