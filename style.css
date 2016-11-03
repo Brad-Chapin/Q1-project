@@ -42,7 +42,10 @@ html {
   background-color: black;
 }
 #pirate-splash {
-  background-image: url(image/images/SCC-dark-alt.JPG);
+  background-image: url(images/SCC-dark-alt.JPG);
+  width:838px;
+  height: 593px;;
+  background-size: cover;
 }
 [type="radio"].with-gap:checked + label:before {
 border-radius: 50%;

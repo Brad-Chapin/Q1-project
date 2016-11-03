@@ -101,26 +101,11 @@ function turn (){
         $("#what_turn").text(turnNumber);
         reset();
       }
+    } else if (round < 3 && storedRolls.length < 3 && turnWho == playerTwo && playerTwo == "Machine"){
+      machineTurn();
     }
     if (turnNumber > 5){
-      if (playerOneScore > playerTwoScore){
-        alert(playerOne + " be th' winner!");
-        playerOneWins++;
-        $("#p1_wins").text(playerOneWins);
-        playerTwoLosses++;
-        $("#p2_losses").text(playerTwoLosses);
-        gameReset();
-      } else if (playerOneScore < playerTwoScore){
-        alert (playerTwo + " be th' winner!");
-        playerTwoWins++;
-        $("#p2_wins").text(playerTwoWins);
-        playerOneLosses++;
-        $("#p1_losses").text(playerOneLosses);
-        gameReset();
-      } else {
-        alert("An epic battle! It be a draw!");
-        gameReset;
-      }
+      gameEnd();
     }
 };
 
@@ -177,6 +162,7 @@ function getPoints (){
       if (playerTwo == "Machine"){
         playerOneScore += score;
         $("#p1_score").text(playerOneScore);
+        alert("Ye scored " + score +" points. Th' Machine be at th' helm now.");
         turnWho = playerTwo;
         $("#which_player").text(playerTwo)
         reset();
@@ -185,6 +171,7 @@ function getPoints (){
         console.log("determing p2 not computer II");
         playerOneScore += score;
         $("#p1_score").text(playerOneScore);
+        alert(playerOne + " scored " + score + " points. " + playerTwo + " be at th' helm now.");
         turnWho = playerTwo;
         $("#which_player").text(playerTwo);
         reset();
@@ -194,8 +181,10 @@ function getPoints (){
     console.log("passing play from p2 to p1 II");
     playerTwoScore += score;
     $("#p2_score").text(playerTwoScore);
+    alert(playerTwo + " scored " + score + " points. " + playerOne + " be at th' helm now.");
     turnWho = playerOne;
     $("#which_player").text(playerOne);
+    reset();
     turnNumber++;
     if (turnNumber > 5){
       gameEnd();
@@ -205,13 +194,12 @@ function getPoints (){
   }
 }
 function machineTurn (){
-  turn();
   console.log("the machine should be rolling");
-  if (storedRolls.length == 3){
+  if (storedRolls.length == 3 && round < 3){
     var dieOne = diceBoxes[0];
     var dieTwo = diceBoxes [1];
     score = (parseInt($(dieOne).text())) + parseInt($(dieTwo).text());
-    switch (true) {
+    switch (score) {
       case score < 6:
       turn();
       break;
@@ -228,7 +216,9 @@ function machineTurn (){
       console.log("Houston, we have a problem.");
 
     }
-  }
+  } else  {
+      turn();
+    }
 }
 
 function gameEnd () {
