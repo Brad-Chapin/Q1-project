@@ -124,6 +124,8 @@ function gameReset () {
   reset();
   turnNumber = 1;
   $("#what_turn").text(turnNumber);
+  $("#p1_score").text("0");
+  $("#p2_score").text("0");
   playerOneScore = 0;
   playerTwoScore = 0;
 }
