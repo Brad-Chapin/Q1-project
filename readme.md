@@ -2,10 +2,8 @@ Ship, Captain, and Crew is a simple game of chance for two players. Gameplay pro
 
 Ship, Captain, and Crew was created using HTML5, CSS3, and the Materialize framework for the presentation and user interface, javascript and jQuery for the logic and game mechanics, and an API call to create the "talk like a pirate" feature.
 
-[Watch the demo video!]
-(https://youtu.be/vYO1FHYKQxc)
+[Watch the demo video!](https://youtu.be/vYO1FHYKQxc)
 
-[Play the game!]
-(ship-captain-crew.surge.sh)
+[Play the game!](ship-captain-crew.surge.sh)
 
 
